@@ -1,9 +1,15 @@
+flutter:
+  fonts:
+    - family: AbhayaLibre
+      fonts:
+        - asset: fonts/AbhayaLibre-Medium.ttf
+
 name: energiza
 description: "Projeto de APP II QI."
 publish_to: 'Julio'
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:

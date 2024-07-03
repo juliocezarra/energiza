@@ -7,6 +7,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Login App',
       home: LoginPage(),
     );
@@ -32,147 +33,184 @@ class _LoginPageState extends State<LoginPage> {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Login',
-                style: TextStyle(
-                  fontSize: 32.0,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
+      body: Stack(
+        children: [
+          Positioned(
+            top: -40,
+            right: -30,
+            child: Transform.rotate(
+              angle: -70 * 3.1415927 / 180,
+              child: Container(
+                width: 300,
+                height: 300,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage('assets/pngwing_1.png'),
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
-              SizedBox(height: 16.0),
-              Text(
-                'Seja bem vindo!',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              SizedBox(height: 32.0),
-              TextFormField(
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.email),
-                  labelText: 'E-mail',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira seu e-mail';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16.0),
-              TextFormField(
-                obscureText: true,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.lock),
-                  labelText: 'Senha',
-                  border: OutlineInputBorder(),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Por favor, insira sua senha';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 32.0),
-              ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    // Process login
-                  }
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.green,
-                  padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 16.0),
-                  textStyle: TextStyle(fontSize: 18.0),
-                ),
-                child: Text('Login'),
-              ),
-              SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: false,
-                        onChanged: (value) {},
-                      ),
-                      Text('Lembre de mim'),
-                    ],
-                  ),
-                  TextButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(color: Colors.green),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 32.0),
-              Divider(
-                thickness: 1.0,
-              ),
-              SizedBox(height: 16.0),
-              Text('Não tenho uma conta'),
-              SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundColor: Colors.white,
-                    child: Image.asset('assets/google_logo.png'),
-                  ),
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundColor: Colors.white,
-                    child: Image.asset('assets/facebook_logo.png'),
-                  ),
-                  CircleAvatar(
-                    radius: 30.0,
-                    backgroundColor: Colors.white,
-                    child: Image.asset('assets/apple_logo.png'),
-                  ),
-                ],
-              ),
-              SizedBox(height: 32.0),
-              RichText(
-                text: TextSpan(
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Form(
+              key: _formKey,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextSpan(
-                      text: 'Você já tem uma conta?',
+                    Text(
+                      'Login',
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 16.0,
+                        fontFamily: 'AbhayaLibre',
+                        fontSize: 32.0,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.green,
                       ),
                     ),
-                    TextSpan(
-                      text: ' Login',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
+                    SizedBox(height: 16.0),
+                    Text(
+                      'Seja bem vindo!',
+                      style: TextStyle(fontSize: 16.0),
+                    ),
+                    SizedBox(height: 32.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
-                      recognizer: TapGestureRecognizer()
-                        ..onTap = () {
-                          // Navigate to login screen if needed
+                      child: TextFormField(
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.email),
+                          labelText: 'E-mail',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, insira seu e-mail';
+                          }
+                          return null;
                         },
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8.0),
+                      ),
+                      child: TextFormField(
+                        obscureText: true,
+                        decoration: InputDecoration(
+                          prefixIcon: Icon(Icons.lock),
+                          labelText: 'Senha',
+                          border: OutlineInputBorder(),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Por favor, insira sua senha';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                    SizedBox(height: 32.0),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          // Process login
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 40.0, vertical: 16.0),
+                        textStyle: TextStyle(fontSize: 18.0),
+                      ),
+                      child: Text('Login'),
+                    ),
+                    SizedBox(height: 16.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Checkbox(
+                              value: false,
+                              onChanged: (value) {},
+                            ),
+                            Text('Lembre de mim'),
+                          ],
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: Text(
+                            'Esqueceu a senha?',
+                            style: TextStyle(color: Colors.green),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32.0),
+                    Divider(
+                      thickness: 1.0,
+                    ),
+                    SizedBox(height: 16.0),
+                    Text('Não tenho uma conta'),
+                    SizedBox(height: 16.0),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundColor: Colors.white,
+                          child: Image.asset('assets/google_logo.png'),
+                        ),
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundColor: Colors.white,
+                          child: Image.asset('assets/facebook.png.png'),
+                        ),
+                        CircleAvatar(
+                          radius: 30.0,
+                          backgroundColor: Colors.white,
+                          child: Image.asset('assets/apple_logo.png'),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 32.0),
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Você já tem uma conta?',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 16.0,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'Login',
+                            style: TextStyle(
+                              color: Colors.green,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                // Navigate to login screen if needed
+                              },
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
