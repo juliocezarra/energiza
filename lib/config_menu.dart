@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Solar Panel App',
       home: ProfilePage(),
     );
@@ -13,24 +15,26 @@ class MyApp extends StatelessWidget {
 }
 
 class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back),
           onPressed: () {
             // Navegar para a tela anterior
           },
         ),
-        title: Text('Perfil'),
+        title: const Text('Perfil'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center( // Adicione o Center aqui
+            Center(
               child: Text(
                 'Casa',
                 style: TextStyle(
@@ -81,14 +85,14 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       bottomNavigationBar: BottomNavigationBar(
-        items: [
+        items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 161, 161, 161)),
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
+             icon: Icon(Icons.person, color: Colors.green),
+            label:'Profile',
           ),
         ],
       ),
@@ -102,21 +106,23 @@ class _SettingsItem extends StatelessWidget {
   final Color? color;
 
   const _SettingsItem({
-    Key? key,
     required this.title,
     required this.icon,
     this.color,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(title),
-      trailing: Icon(Icons.arrow_forward_ios),
-      onTap: () {
-        // Navegar para a tela correspondente
-      },
+    return Container(
+      color: Color.fromRGBO(144, 238, 144, 0.25), // Verde claro com baixa opacidade
+      child: ListTile(
+        leading: Icon(icon, color: color),
+        title: Text(title),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          // Navegar para a tela correspondente
+        },
+      ),
     );
   }
 }
