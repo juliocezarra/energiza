@@ -1,21 +1,7 @@
 import 'package:flutter/material.dart';
 
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(
-      title: 'Solar Panel App',
-      home: ProfilePage(),
-    );
-  }
-}
-
-class ProfilePage extends StatelessWidget {
-  const ProfilePage({super.key});
+class ConfigMenu extends StatelessWidget {
+  const ConfigMenu({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +10,7 @@ class ProfilePage extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Navegar para a tela anterior
+            Navigator.pop(context);  // Navega de volta para a HomePage
           },
         ),
         title: const Text('Perfil'),
@@ -91,10 +77,15 @@ class ProfilePage extends StatelessWidget {
             label: 'Home',
           ),
           BottomNavigationBarItem(
-             icon: Icon(Icons.person, color: Colors.green),
-            label:'Profile',
+            icon: Icon(Icons.person, color: Colors.green),
+            label: 'Profile',
           ),
         ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.popUntil(context, ModalRoute.withName('/'));
+          }
+        },
       ),
     );
   }
@@ -114,13 +105,13 @@ class _SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(144, 238, 144, 0.25), // Verde claro com baixa opacidade
+      color: Color.fromRGBO(144, 238, 144, 0.25),
       child: ListTile(
         leading: Icon(icon, color: color),
         title: Text(title),
         trailing: const Icon(Icons.arrow_forward_ios),
         onTap: () {
-          // Navegar para a tela correspondente
+          // Navegar para a tela correspondente, se necessário
         },
       ),
     );

@@ -124,7 +124,7 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          // Processar login
+                          Navigator.pushReplacementNamed(context, '/home');
                         }
                       },
                       style: ElevatedButton.styleFrom(

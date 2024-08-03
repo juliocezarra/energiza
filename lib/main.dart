@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'config_menu.dart';  // Importa o arquivo de perfil
+import 'login.dart'; // Importa o arquivo de login
 
 void main() => runApp(const MyApp());
 
@@ -8,10 +9,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Solar Panel App',
-      home: HomePage(),
+      initialRoute: '/login', // Define a rota inicial como login
+      routes: {
+        '/login': (context) => const LoginPage(), // Adiciona a rota para LoginPage
+        '/home': (context) => const HomePage(),
+        '/config': (context) => const ConfigMenu(),
+      },
     );
   }
 }
@@ -85,7 +91,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
-        selectedItemColor: Colors.green, // Define a cor do ícone selecionado para verde
+        selectedItemColor: Colors.green,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -96,6 +102,11 @@ class _HomePageState extends State<HomePage> {
             label: 'Profile',
           ),
         ],
+        onTap: (index) {
+          if (index == 1) {
+            Navigator.pushNamed(context, '/config');  // Atualiza a navegação para ConfigMenu
+          }
+        },
       ),
     );
   }
@@ -129,7 +140,7 @@ class _DeviceCardState extends State<DeviceCard> {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        color: Colors.green.withOpacity(0.2), // Definindo a cor de fundo com baixa opacidade
+        color: Colors.green.withOpacity(0.2),
         padding: const EdgeInsets.all(26.0),
         child: Row(
           children: [
