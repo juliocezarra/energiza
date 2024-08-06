@@ -1,25 +1,7 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Login App',
-      initialRoute: '/login',
-      routes: {
-        '/login': (context) => const LoginPage(),
-        '/home': (context) => const HomePage(),
-        '/config': (context) => const ConfigMenu(),
-      },
-    );
-  }
-}
+import 'package:flutter/gestures.dart';
+import 'package:energiza/main.dart' as main;
+import 'package:energiza/config_menu.dart' as config;
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -30,18 +12,13 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
-  bool _rememberMe = false; // Variável para controlar o estado do checkbox
+  bool _rememberMe = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            // Navegar para trás se necessário
-          },
-        ),
+        
       ),
       body: Stack(
         children: [
@@ -100,7 +77,6 @@ class _LoginPageState extends State<LoginPage> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira seu e-mail';
                           }
-                          // Validação básica de e-mail
                           final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
                           if (!emailRegex.hasMatch(value)) {
                             return 'Por favor, insira um e-mail válido';
@@ -134,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                     ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
-                          Navigator.pushReplacementNamed(context, '/home');
+                          Navigator.pushReplacementNamed(context, '/');
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -173,9 +149,7 @@ class _LoginPageState extends State<LoginPage> {
                       ],
                     ),
                     const SizedBox(height: 32.0),
-                    const Divider(
-                      thickness: 1.0,
-                    ),
+                    const Divider(thickness: 1.0),
                     const SizedBox(height: 16.0),
                     const Text('Não tenho uma conta'),
                     const SizedBox(height: 16.0),
@@ -231,38 +205,6 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-}
-
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-      ),
-      body: Center(
-        child: Text('Bem-vindo à Home Page!'),
-      ),
-    );
-  }
-}
-
-class ConfigMenu extends StatelessWidget {
-  const ConfigMenu({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Configurações'),
-      ),
-      body: Center(
-        child: Text('Menu de Configurações'),
       ),
     );
   }

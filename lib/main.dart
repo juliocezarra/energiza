@@ -1,4 +1,31 @@
+// lib/main.dart
 import 'package:flutter/material.dart';
+import 'config_menu.dart';
+import 'login.dart';
+import 'create_device.dart' as create_device;
+import 'database_helper.dart' as database_helper;
+import 'device.dart'; // Importa a definição correta da classe Device
+
+void main() => runApp(const MyApp());
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Dispositivos',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => const HomePage(),
+        '/login': (context) => const LoginPage(),
+        '/config': (context) => const ConfigMenuScreen(),
+        '/create_device': (context) => const create_device.CreateDeviceScreen(),
+      },
+    );
+  }
+}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,57 +35,51 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final List<Device> devices = [
-    Device(
-      name: 'Placa Solar N09',
-      image: 'assets/solar_panel.png',
-      status: '100',
-      isOn: true,
-    ),
-    Device(
-      name: 'Placa Solar N09 - 2',
-      image: 'assets/solar_panel.png',
-      status: '100',
-      isOn: false,
-    ),
-    Device(
-      name: 'Lâmpada P1',
-      image: 'assets/pngwing 4.png',
-      status: '50',
-      isOn: false,
-    ),
-    Device(
-      name: 'Fita Led J2',
-      image: 'assets/pngwing 5.png',
-      status: '100',
-      isOn: false,
-    ),
-    Device(
-      name: 'Lâmpada P1 - 2',
-      image: 'assets/pngwing 4.png',
-      status: '100',
-      isOn: false,
-    ),
-    Device(
-      name: 'Lâmpada P1',
-      image: 'assets/pngwing 4.png',
-      status: '50',
-      isOn: false,
-    ),
-  ];
+  List<Device> devices = []; // Inicialmente vazio, será preenchido com dados do banco de dados
+
+  @override
+  void initState() {
+    super.initState();
+    _loadDevices();
+  }
+
+  void _loadDevices() async {
+    devices = await database_helper.DatabaseHelper.instance.getDevices(); // Usando o alias
+    setState(() {});
+  }
+
+  int _selectedIndex = 0;
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+    if (index == 1) {
+      Navigator.pushNamed(context, '/config');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: const Text('Dispositivos'),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {},
+          icon: const Icon(Icons.logout),
+          onPressed: () {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/login',
+              (route) => false,
+            );
+          },
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/create_device');
+            },
           ),
         ],
       ),
@@ -69,6 +90,7 @@ class _HomePageState extends State<HomePage> {
         },
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _selectedIndex,
         selectedItemColor: Colors.green,
         items: const [
           BottomNavigationBarItem(
@@ -80,28 +102,10 @@ class _HomePageState extends State<HomePage> {
             label: 'Profile',
           ),
         ],
-        onTap: (index) {
-          if (index == 1) {
-            Navigator.pushNamed(context, '/config');  // Navega para ConfigMenu
-          }
-        },
+        onTap: _onItemTapped,
       ),
     );
   }
-}
-
-class Device {
-  final String name;
-  final String image;
-  final String status;
-  bool isOn;
-
-  Device({
-    required this.name,
-    required this.image,
-    required this.status,
-    required this.isOn,
-  });
 }
 
 class DeviceCard extends StatefulWidget {
@@ -159,12 +163,136 @@ class _DeviceCardState extends State<DeviceCard> {
                 });
               },
               icon: Icon(
-                widget.device.isOn ? Icons.power_settings_new : Icons.power_off,
+                widget.device.isOn
+                    ? Icons.power_settings_new
+                    : Icons.power_off,
                 color: widget.device.isOn ? Colors.green : Colors.grey,
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ConfigMenuScreen extends StatelessWidget {
+  const ConfigMenuScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        title: const Text('Perfil'),
+      ),
+      body: const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Text(
+                'Casa',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            SizedBox(height: 24.0),
+            Text(
+              'Configurações',
+              style: TextStyle(
+                fontSize: 18.0,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 16.0),
+            _SettingsItem(
+              title: 'Meus aparelhos',
+              icon: Icons.devices,
+            ),
+            _SettingsItem(
+              title: 'Novo Aparelho',
+              icon: Icons.add,
+            ),
+            _SettingsItem(
+              title: 'Novo Perfil',
+              icon: Icons.person_add,
+            ),
+            _SettingsItem(
+              title: 'Idioma',
+              icon: Icons.language,
+            ),
+            _SettingsItem(
+              title: 'Problemas?',
+              icon: Icons.help,
+            ),
+            _SettingsItem(
+              title: 'Atualizações',
+              icon: Icons.update,
+            ),
+            _SettingsItem(
+              title: 'Sair',
+              icon: Icons.exit_to_app,
+              color: Colors.red,
+            ),
+          ],
+        ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, color: Color.fromARGB(255, 161, 161, 161)),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person, color: Colors.green),
+            label: 'Profile',
+          ),
+        ],
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/',
+              (route) => false,
+            );
+          }
+        },
+      ),
+    );
+  }
+}
+
+class _SettingsItem extends StatelessWidget {
+  final String title;
+  final IconData icon;
+  final Color? color;
+
+  const _SettingsItem({
+    required this.title,
+    required this.icon,
+    this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: const Color.fromRGBO(144, 238, 144, 0.25),
+      child: ListTile(
+        leading: Icon(icon, color: color),
+        title: Text(title),
+        trailing: const Icon(Icons.arrow_forward_ios),
+        onTap: () {
+          // Navegar para a tela correspondente, se necessário
+        },
       ),
     );
   }

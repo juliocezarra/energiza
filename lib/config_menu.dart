@@ -1,7 +1,8 @@
+// lib/config_menu.dart
 import 'package:flutter/material.dart';
 
-class ConfigMenu extends StatelessWidget {
-  const ConfigMenu({super.key});
+class ConfigMenuScreen extends StatelessWidget {
+  const ConfigMenuScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,7 +11,7 @@ class ConfigMenu extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);  // Navega de volta para a tela anterior
+            Navigator.pop(context);
           },
         ),
         title: const Text('Perfil'),
@@ -85,8 +86,8 @@ class ConfigMenu extends StatelessWidget {
           if (index == 0) {
             Navigator.pushNamedAndRemoveUntil(
               context,
-              '/home',
-              ModalRoute.withName('/login'), // Remove todas as telas acima de login
+              '/',
+              (route) => false,
             );
           }
         },
@@ -109,7 +110,7 @@ class _SettingsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(144, 238, 144, 0.25),
+      color: const Color.fromRGBO(144, 238, 144, 0.25),
       child: ListTile(
         leading: Icon(icon, color: color),
         title: Text(title),
