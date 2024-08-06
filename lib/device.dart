@@ -3,7 +3,7 @@ class Device {
   final int? id;
   final String name;
   final String image;
-  final double status; // Mudança para double
+  final double status; // Alterado para double
   bool isOn;
 
   Device({
@@ -19,7 +19,7 @@ class Device {
       id: map['id'],
       name: map['name'],
       image: map['image'],
-      status: (map['status'] as String).isNotEmpty ? double.parse(map['status']) : 0.0,
+      status: map['status']?.toDouble() ?? 0.0, // Acessa como double
       isOn: map['isOn'] == 1,
     );
   }
@@ -29,7 +29,7 @@ class Device {
       'id': id,
       'name': name,
       'image': image,
-      'status': status.toString(), // Convertendo de double para String
+      'status': status, // Já é double
       'isOn': isOn ? 1 : 0,
     };
   }

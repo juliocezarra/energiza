@@ -1,4 +1,4 @@
-// lib/database_helper.dart
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'device.dart'; // Atualize a importação
@@ -68,4 +68,4 @@ class DatabaseHelper {
       whereArgs: [id],
     );
   }
-}
+} 
