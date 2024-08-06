@@ -8,10 +8,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Login App',
-      home: LoginPage(),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginPage(),
+        '/home': (context) => const HomePage(),
+        '/config': (context) => const ConfigMenu(),
+      },
     );
   }
 }
@@ -95,6 +100,11 @@ class _LoginPageState extends State<LoginPage> {
                           if (value == null || value.isEmpty) {
                             return 'Por favor, insira seu e-mail';
                           }
+                          // Validação básica de e-mail
+                          final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Por favor, insira um e-mail válido';
+                          }
                           return null;
                         },
                       ),
@@ -143,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             Checkbox(
                               value: _rememberMe,
-                              activeColor: Colors.green, // Cor verde quando marcado
+                              activeColor: Colors.green,
                               onChanged: (value) {
                                 setState(() {
                                   _rememberMe = value!;
@@ -194,14 +204,14 @@ class _LoginPageState extends State<LoginPage> {
                       text: TextSpan(
                         children: [
                           const TextSpan(
-                            text: '',
+                            text: 'Não tem uma conta? ',
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 16.0,
                             ),
                           ),
                           TextSpan(
-                            text: '',
+                            text: 'Cadastre-se',
                             style: const TextStyle(
                               color: Colors.green,
                               fontSize: 16.0,
@@ -209,7 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                             recognizer: TapGestureRecognizer()
                               ..onTap = () {
-                                // Navegar para a tela de login, se necessário
+                                // Navegar para a tela de cadastro
                               },
                           ),
                         ],
@@ -221,6 +231,38 @@ class _LoginPageState extends State<LoginPage> {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  const HomePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Home Page'),
+      ),
+      body: Center(
+        child: Text('Bem-vindo à Home Page!'),
+      ),
+    );
+  }
+}
+
+class ConfigMenu extends StatelessWidget {
+  const ConfigMenu({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Configurações'),
+      ),
+      body: Center(
+        child: Text('Menu de Configurações'),
       ),
     );
   }

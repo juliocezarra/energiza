@@ -1,26 +1,4 @@
 import 'package:flutter/material.dart';
-import 'config_menu.dart';  // Importa o arquivo de perfil
-import 'login.dart'; // Importa o arquivo de login
-
-void main() => runApp(const MyApp());
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Solar Panel App',
-      initialRoute: '/login', // Define a rota inicial como login
-      routes: {
-        '/login': (context) => const LoginPage(), // Adiciona a rota para LoginPage
-        '/home': (context) => const HomePage(),
-        '/config': (context) => const ConfigMenu(),
-      },
-    );
-  }
-}
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -104,7 +82,7 @@ class _HomePageState extends State<HomePage> {
         ],
         onTap: (index) {
           if (index == 1) {
-            Navigator.pushNamed(context, '/config');  // Atualiza a navegação para ConfigMenu
+            Navigator.pushNamed(context, '/config');  // Navega para ConfigMenu
           }
         },
       ),

@@ -10,7 +10,7 @@ class ConfigMenu extends StatelessWidget {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            Navigator.pop(context);  // Navega de volta para a HomePage
+            Navigator.pop(context);  // Navega de volta para a tela anterior
           },
         ),
         title: const Text('Perfil'),
@@ -83,7 +83,11 @@ class ConfigMenu extends StatelessWidget {
         ],
         onTap: (index) {
           if (index == 0) {
-            Navigator.popUntil(context, ModalRoute.withName('/'));
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              '/home',
+              ModalRoute.withName('/login'), // Remove todas as telas acima de login
+            );
           }
         },
       ),

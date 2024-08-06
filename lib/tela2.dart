@@ -63,7 +63,7 @@ class SolarPanelScreen extends StatelessWidget {
           ),
         ),
       ),
-bottomNavigationBar: BottomNavigationBar(
+      bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.green, // Define a cor do ícone selecionado para verde
         items: const [
           BottomNavigationBarItem(
